@@ -1,0 +1,38 @@
+function get_course_list($cohortID)
+{
+    global $DB;
+    global $CFG;
+    $sql = "select name from {cohort}
+    where id = $cohortID";
+    $cohort_name = $DB->get_record_sql($sql,array());
+    $listRecords=$DB->get_records_sql("
+select distinct c.fullname
+from mdl232x0_course c, mdl232x0_enrol e,
+mdl232x0_user_enrolments ue, mdl232x0_user u, mdl232x0_cohort_members cm,
+mdl232x0_cohort co
+where co.id = cm.cohortid
+and cm.userid = u.id
+and u.id = ue.userid
+and ue.enrolid = e.id
+and e.courseid = c.id
+and co.name = '$cohort_name->name'
+");
+    
+    $listCourse='<select width: 50% id="sldownloadketqua'.$cohortID.'" onchange="download_ketquahoc('.$cohortID.')"><option value="" >-- Tải kết quả học --</option>';
+    
+    foreach ($listRecords as $record) {
+        //echo $record->qid.",".$CFG->mofquizid.",".strpos($CFG->mofquizid.",",$record->qid.",");
+        $mof="";
+        if(strpos(" ".$CFG->mofquizid.",",$record->qid.",")!=false)
+        {
+            $mof="mof";
+            $listCourse.='<option value="'.$record->id.$mof.'">'.$record->fullname."</option>";
+        }
+        else
+            $listCourse.='<option value="'.$record->qid.'">'.$record->fullname."</option>";
+            
+    }
+    $listCourse.='</select>';
+    
+    return $listCourse;
+}
