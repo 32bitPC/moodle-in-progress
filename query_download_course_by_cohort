@@ -36,3 +36,4 @@ and co.name = '$cohort_name->name'
     
     return $listCourse;
 }
+ 
