@@ -1,0 +1,8 @@
+
+5/20/2021
+- update add trainer to cohort.
+- fix search by malop.
+
+5/21/2021
+- fix search by khuvuc.
+- fix search by khoahoc.
